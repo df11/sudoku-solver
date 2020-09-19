@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/df11/sudoku-solver/puzzle"
 	"github.com/df11/sudoku-solver/request"
@@ -10,7 +11,6 @@ import (
 
 // @TODO:
 // - put functions as puzzle methods
-// - add a way to know if puzzle is solved
 func main() {
 	var difficulty = "easy"
 	var puzzleLine string
@@ -30,5 +30,9 @@ func main() {
 	}
 
 	puzzleObject := puzzle.Initialize(difficulty, puzzleLine, puzzleSolution)
-	puzzle.Solve(&puzzleObject)
+	if puzzle.Solve(&puzzleObject) {
+		print("Puzzle solved (" + strconv.Itoa(puzzleObject.Iteration) + ")!\n")
+	} else {
+		print("Not this time (" + strconv.Itoa(puzzleObject.Iteration) + ")...\n")
+	}
 }

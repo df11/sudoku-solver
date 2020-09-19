@@ -39,17 +39,36 @@ func Initialize(difficulty string, puzzleLine string, puzzleSolution string) Puz
 }
 
 func Solve(puzzle *Puzzle) bool {
-	for try := 0; try < 10000; try++ {
+	var numberFound int8
+	for try := 0; try < 10; try++ {
 		puzzle.Iteration = try
+		numberFound = 0
 		for i := 0; i < 3; i++ {
 			for j := 0; j < 3; j++ {
-				checkSquare(i*3, j*3, puzzle)
-				checkLine(i*3+j, puzzle)
-				checkColumn(i*3+j, puzzle)
+				numberFound |= checkSquare(i*3, j*3, puzzle)
+				numberFound |= checkLine(i*3+j, puzzle)
+				numberFound |= checkColumn(i*3+j, puzzle)
+				if checkCompleted(puzzle) == true {
+					return true
+				}
+				if numberFound == 0 {
+					return false
+				}
 			}
 		}
 	}
 	return false
+}
+
+func checkCompleted(puzzle *Puzzle) bool {
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			if puzzle.Cells[i][j].Value == 0 {
+				return false
+			}
+		}
+	}
+	return true
 }
 
 func checkPossibility(possibilities [9]bool) int {
@@ -78,7 +97,8 @@ func clearNumber(lineNumber int, columnNumber int, value int, puzzle *Puzzle) {
 	}
 }
 
-func checkSquare(line int, column int, puzzle *Puzzle) {
+func checkSquare(line int, column int, puzzle *Puzzle) int8 {
+	var solutionFound int8
 	for value := 1; value <= 9; value++ {
 		occurences := 0
 		occLine := 0
@@ -96,11 +116,14 @@ func checkSquare(line int, column int, puzzle *Puzzle) {
 			puzzle.Cells[occLine][occColumn].Value = value
 			clearNumber(occLine, occColumn, value, puzzle)
 			PrintPuzzle(*puzzle)
+			solutionFound = 1
 		}
 	}
+	return solutionFound
 }
 
-func checkLine(line int, puzzle *Puzzle) {
+func checkLine(line int, puzzle *Puzzle) int8 {
+	var solutionFound int8
 	for value := 1; value <= 9; value++ {
 		occurences := 0
 		occColumn := 0
@@ -114,11 +137,14 @@ func checkLine(line int, puzzle *Puzzle) {
 			puzzle.Cells[line][occColumn].Value = value
 			clearNumber(line, occColumn, value, puzzle)
 			PrintPuzzle(*puzzle)
+			solutionFound = 1
 		}
 	}
+	return solutionFound
 }
 
-func checkColumn(column int, puzzle *Puzzle) {
+func checkColumn(column int, puzzle *Puzzle) int8 {
+	var solutionFound int8
 	for value := 1; value <= 9; value++ {
 		occurences := 0
 		occLine := 0
@@ -132,6 +158,8 @@ func checkColumn(column int, puzzle *Puzzle) {
 			puzzle.Cells[occLine][column].Value = value
 			clearNumber(occLine, column, value, puzzle)
 			PrintPuzzle(*puzzle)
+			solutionFound = 1
 		}
 	}
+	return solutionFound
 }
