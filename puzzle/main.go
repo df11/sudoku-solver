@@ -40,6 +40,7 @@ func Initialize(difficulty string, puzzleLine string, puzzleSolution string) Puz
 
 func Solve(puzzle *Puzzle) bool {
 	for try := 0; try < 10000; try++ {
+		puzzle.Iteration = try
 		for i := 0; i < 3; i++ {
 			for j := 0; j < 3; j++ {
 				checkSquare(i*3, j*3, puzzle)

@@ -10,7 +10,7 @@ func PrintPuzzle(puzzle Puzzle) {
 	var lineNumber int
 
 	print("\033[H\033[2J")
-	print("Difficuty: " + puzzle.Difficulty + "\n")
+	print("Difficuty: " + puzzle.Difficulty + " (" + strconv.Itoa(puzzle.Iteration) + ")\n")
 	print(puzzle.PuzzleString + "\n")
 	print(puzzle.PuzzleSolution + "\n")
 	for lineNumber = 0; lineNumber < 9; lineNumber++ {

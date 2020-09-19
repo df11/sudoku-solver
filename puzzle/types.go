@@ -5,6 +5,7 @@ type Puzzle struct {
 	PuzzleSolution string
 	Difficulty     string
 	Cells          [9][9]PuzzleCell
+	Iteration      int
 }
 
 type PuzzleCell struct {
