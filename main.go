@@ -261,6 +261,9 @@ func main() {
 		difficulty = "custom"
 		puzzleLine = os.Args[1]
 		puzzleSolution = os.Args[2]
+		if len(puzzleLine) != 81 || len(puzzleSolution) != 81 {
+			log.Fatal("Incorrect puzzle length")
+		}
 	}
 	if len(os.Args) == 2 {
 		difficulty = os.Args[1]
